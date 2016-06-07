@@ -3,32 +3,38 @@ package com.renjk.gank.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.renjk.gank.Cons.Cons;
 import com.renjk.gank.R;
+import com.renjk.gank.activity.PhotoViewActivity;
 import com.renjk.gank.activity.WebViewActivity;
-import com.renjk.gank.adapter.AndroidAdapter;
+import com.renjk.gank.adapter.AmazingAdapter;
 import com.renjk.gank.bean.AndroidInfo;
 import com.renjk.gank.request.InfoRequest;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import uk.co.senab.photoview.PhotoView;
 
 /**
- * Created by admin on 2016/6/6.
+ * Created by admin on 2016/6/7.
  */
-public class AndroidFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AndroidAdapter.OnRecyclerViewItemClickListener,View.OnClickListener {
-
+public class AmazingFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
+        AmazingAdapter.OnRecyclerViewItemClickListener,View.OnClickListener {
     private RecyclerView lv_android;
-    private AndroidAdapter mAdapter;
+    private AmazingAdapter mAdapter;
     private List<AndroidInfo.ResultsBean> data;
     private SwipeRefreshLayout refreshLayout;
     private int pageIndex = 1;
@@ -45,12 +51,12 @@ public class AndroidFragment extends BaseFragment implements SwipeRefreshLayout.
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         lv_android = (RecyclerView) view.findViewById(R.id.lv_android);
-        mLayoutManager= new LinearLayoutManager(getActivity());
+        mLayoutManager= new GridLayoutManager(getActivity(),2,LinearLayoutManager.VERTICAL,false);
         lv_android.setLayoutManager(mLayoutManager);
-        mAdapter = new AndroidAdapter(getActivity());
+        mAdapter = new AmazingAdapter(getActivity());
+        mAdapter.setOnItemClickListener(this);
         data = new ArrayList<>();
         lv_android.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(this);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(this);
@@ -61,18 +67,19 @@ public class AndroidFragment extends BaseFragment implements SwipeRefreshLayout.
         tab = getArguments().getString(TAB_KEY);
     }
 
-    public static AndroidFragment newInstance(String item) {
-
-        Bundle args = new Bundle();
-        args.putString(TAB_KEY, item);
-        AndroidFragment fragment = new AndroidFragment();
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    protected void initData(View view, Bundle savedInstanceState) {
+        pageIndex = 1;
+        requestData(pageIndex);
     }
 
-    @Override
-    protected void initData(View view, Bundle savedInstanceState){
-        requestData(pageIndex);
+    public static AmazingFragment newInstance(String item) {
+
+        Bundle args = new Bundle();
+        args.putString(TAB_KEY,item);
+        AmazingFragment fragment = new AmazingFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private void requestData(int pageIndex) {
@@ -137,24 +144,24 @@ public class AndroidFragment extends BaseFragment implements SwipeRefreshLayout.
         });
     }
 
-   public void initScrollListener(){
-       lv_android.setOnScrollListener(new RecyclerView.OnScrollListener() {
-           @Override
-           public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-               super.onScrolled(recyclerView, dx, dy);
-               int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-               int totalItemCount = mLayoutManager.getItemCount();
-               if (!isLoadingMore&&lastVisibleItem >= totalItemCount - 4 && dy > 0) {
-                       onLoadMore();
-               }
-           }
-       });
+    public void initScrollListener(){
+        lv_android.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+                int totalItemCount = mLayoutManager.getItemCount();
+                if (!isLoadingMore&&lastVisibleItem >= totalItemCount - 4 && dy > 0) {
+                    onLoadMore();
+                }
+            }
+        });
 
-   }
+    }
 
     @Override
     public void onItemClick(View view, String data) {
-        Intent i = new Intent(getActivity(), WebViewActivity.class);
+        Intent i = new Intent(getActivity(), PhotoViewActivity.class);
         i.putExtra("url",data);
         startActivity(i);
     }

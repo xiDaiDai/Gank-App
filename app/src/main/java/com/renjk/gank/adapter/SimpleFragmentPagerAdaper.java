@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.renjk.gank.fragment.AmazingFragment;
 import com.renjk.gank.fragment.AndroidFragment;
-import com.renjk.gank.fragment.PageFragment;
 
 /**
  * Created by admin on 2016/6/6.
@@ -39,7 +39,7 @@ public class SimpleFragmentPagerAdaper extends FragmentPagerAdapter {
                 fragment = AndroidFragment.newInstance("休息视频");
                 break;
             case 4:
-                fragment = AndroidFragment.newInstance("福利");
+                fragment = AmazingFragment.newInstance("福利");
                 break;
         }
 

@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private SimpleFragmentPagerAdaper pagerAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private TextView tv_result;
     private Toolbar toolbar;
 
     @Override
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new SimpleFragmentPagerAdaper(getSupportFragmentManager(), this);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(5);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
