@@ -11,19 +11,23 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.liuguangqiang.swipeback.SwipeBackActivity;
+import com.liuguangqiang.swipeback.SwipeBackLayout;
 import com.renjk.gank.R;
 
 /**
  * Created by admin on 2016/6/7.
  */
-public class WebViewActivity extends AppCompatActivity{
+public class WebViewActivity extends SwipeBackActivity{
 
     private Toolbar toolbar;
     private WebView webView;
+    private SwipeBackLayout swipeBackLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_webview);
+            setDragEdge(SwipeBackLayout.DragEdge.LEFT);
             initView();
             initData();
     }
@@ -39,6 +43,8 @@ public class WebViewActivity extends AppCompatActivity{
         });
         toolbar.setTitle(R.string.app_name);
         webView = (WebView) findViewById(R.id.webView);
+        swipeBackLayout = (SwipeBackLayout) findViewById(R.id.swipeBackLayout);
+        swipeBackLayout.setEnableFlingBack(false);
     }
 
     private void initData() {

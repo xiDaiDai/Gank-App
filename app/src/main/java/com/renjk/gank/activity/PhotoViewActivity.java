@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.liuguangqiang.swipeback.SwipeBackActivity;
+import com.liuguangqiang.swipeback.SwipeBackLayout;
 import com.renjk.gank.R;
 import com.renjk.gank.request.OkHttpManager;
 
@@ -19,7 +21,7 @@ import uk.co.senab.photoview.PhotoView;
 /**
  * Created by admin on 2016/6/7.
  */
-public class PhotoViewActivity extends AppCompatActivity {
+public class PhotoViewActivity extends SwipeBackActivity {
     private Toolbar toolbar;
     private PhotoView photoView;
     private String imageUrl;
@@ -47,6 +49,7 @@ public class PhotoViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photoview);
+        setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         initView();
 
     }

@@ -22,8 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.WebViewActivity"/>
-        <activity android:name=".activity.PhotoViewActivity"/>
+        <activity android:name=".activity.WebViewActivity"
+            android:theme="@style/ThemeSwipeBack"
+            />
+        <activity android:name=".activity.PhotoViewActivity"
+             android:theme="@style/ThemeSwipeBack"
+            />
     </application>
 
 </manifest>
