@@ -18,4 +18,8 @@ public interface InfoRequest {
 //
 //    @POST("/users/new")
 //    Call<User> createUser(@Body User user);
+
+    //RxJava
+   /* @GET("/user")
+    public Observable<User> getUser(@Query("userId") String userId);*/
 }

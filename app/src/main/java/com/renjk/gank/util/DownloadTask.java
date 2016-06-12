@@ -1,7 +1,10 @@
 package com.renjk.gank.util;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -15,9 +18,11 @@ import java.net.URL;
 public class DownloadTask extends AsyncTask<String, Integer, String> {
 
     private String urlStr = "";
+    private Context context;
 
-    public DownloadTask(String url) {
+    public DownloadTask(Context context,String url) {
         this.urlStr = url;
+        this.context = context;
     }
 
     @Override
@@ -45,17 +50,20 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
                 }
                 output.flush();
             }
+            return "success";
 
         } catch (Exception e) {
             e.printStackTrace();
+            return "failure";
         }
 
-        return null;
+
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        Toast.makeText(context,s,Toast.LENGTH_LONG).show();
     }
 }
 

@@ -1,6 +1,8 @@
 package com.renjk.gank.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +15,22 @@ import com.liuguangqiang.swipeback.SwipeBackActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 import com.renjk.gank.R;
 import com.renjk.gank.request.OkHttpManager;
+import com.renjk.gank.util.DownloadTask;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import uk.co.senab.photoview.PhotoView;
 
 /**
@@ -30,11 +45,11 @@ public class PhotoViewActivity extends SwipeBackActivity {
     private static final int SUCCESS = 0;
     private static final int FAIL = 1;
 
-    private Handler mHanler = new Handler(){
+    private Handler mHanler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case SUCCESS:
                     Toast.makeText(PhotoViewActivity.this, "下载成功", Toast.LENGTH_LONG).show();
                     break;
@@ -72,22 +87,24 @@ public class PhotoViewActivity extends SwipeBackActivity {
             @Override
             public boolean onLongClick(View view) {
                 Toast.makeText(PhotoViewActivity.this, "downloading", Toast.LENGTH_LONG).show();
-                dowloadImage();
-
+                 dowloadImage();
+//                 RxJavaDownLoad();
+//                new DownloadTask(PhotoViewActivity.this, imageUrl).execute();
                 return true;
             }
         });
     }
 
+    //OkHttpDownLoad
     private void dowloadImage() {
 
-//      new DownloadTask(imageUrl).execute();
+
         OkHttpManager.getInstance().downLoad(imageUrl, "gank", System.currentTimeMillis() + ".jpg", new OkHttpManager.GankCallBack() {
             @Override
             public void onRespose(Call call, Response response) {
-                    Message msg = new Message();
-                    msg.what = SUCCESS;
-                    mHanler.sendMessage(msg);
+                Message msg = new Message();
+                msg.what = SUCCESS;
+                mHanler.sendMessage(msg);
             }
 
             @Override
@@ -100,6 +117,68 @@ public class PhotoViewActivity extends SwipeBackActivity {
 
     }
 
+    //RxJavaDownload
+    private void RxJavaDownLoad() {
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+
+                DownLoadPic(imageUrl, subscriber);
+
+            }
+        })
+                .subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onNext(String result) {
+                        Toast.makeText(PhotoViewActivity.this, result, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(PhotoViewActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+    private void DownLoadPic(String urlStr, Subscriber subscriber) {
+        OutputStream output = null;
+        try {
+            URL url = null;
+            url = new URL(urlStr);
+            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+            InputStream input = urlConn.getInputStream();
+            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "gank");
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+
+            File file = new File(dir, System.currentTimeMillis() + ".jpg");
+            if (!file.exists()) {
+                file.createNewFile();
+                output = new FileOutputStream(file);
+                byte buffer[] = new byte[1024];
+                int inputSize = -1;
+                while ((inputSize = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, inputSize);
+                }
+                output.flush();
+            }
+            subscriber.onNext("Success!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            subscriber.onNext("Failure!");
+        }
+
+    }
 
 
 }
