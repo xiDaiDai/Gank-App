@@ -25,7 +25,7 @@ public class AndroidInfo {
      * who : 潇涧
      */
 
-    private List<ResultsBean> results;
+    private List<GankItem> results;
 
     public boolean isError() {
         return error;
@@ -35,15 +35,15 @@ public class AndroidInfo {
         this.error = error;
     }
 
-    public List<ResultsBean> getResults() {
+    public List<GankItem> getResults() {
         return results;
     }
 
-    public void setResults(List<ResultsBean> results) {
+    public void setResults(List<GankItem> results) {
         this.results = results;
     }
 
-    public static class ResultsBean {
+   /* public static class ResultsBean {
         private String _id;
         private String createdAt;
         private String desc;
@@ -140,5 +140,5 @@ public class AndroidInfo {
                     ", who='" + who + '\'' +
                     '}';
         }
-    }
+    }*/
 }

@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.renjk.gank.R;
 import com.renjk.gank.View.RatioImageView;
 import com.renjk.gank.bean.AndroidInfo;
+import com.renjk.gank.bean.GankItem;
 import com.renjk.gank.util.AndroidTool;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by admin on 2016/6/7.
  */
 public class AmazingAdapter extends  RecyclerView.Adapter<AmazingAdapter.MyViewHolder> implements View.OnClickListener {
-    private List<AndroidInfo.ResultsBean> data;
+    private List<GankItem> data;
     private Context context;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
@@ -27,7 +28,7 @@ public class AmazingAdapter extends  RecyclerView.Adapter<AmazingAdapter.MyViewH
         void onItemClick(View view , String data);
     }
 
-    public void setData(List<AndroidInfo.ResultsBean> data){
+    public void setData(List<GankItem> data){
         this.data = data;
     }
 
@@ -47,7 +48,7 @@ public class AmazingAdapter extends  RecyclerView.Adapter<AmazingAdapter.MyViewH
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        AndroidInfo.ResultsBean item = data.get(position);
+        GankItem item = data.get(position);
         Glide.with(context).load(item.getUrl()).into(holder.amazing);
         holder.itemView.setTag(data.get(position).getUrl());
     }

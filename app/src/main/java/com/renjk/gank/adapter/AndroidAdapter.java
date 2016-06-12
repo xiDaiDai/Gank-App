@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.renjk.gank.R;
 import com.renjk.gank.bean.AndroidInfo;
+import com.renjk.gank.bean.GankItem;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by admin on 2016/6/6.
  */
 public class AndroidAdapter extends RecyclerView.Adapter<AndroidAdapter.MyViewHolder> implements View.OnClickListener{
-    private List<AndroidInfo.ResultsBean> data;
+    private List<GankItem> data;
     private Context context;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
@@ -28,7 +29,7 @@ public class AndroidAdapter extends RecyclerView.Adapter<AndroidAdapter.MyViewHo
         this.context = context;
     }
 
-    public void setData(List<AndroidInfo.ResultsBean> data){
+    public void setData(List<GankItem> data){
         this.data = data;
     }
 
@@ -44,7 +45,7 @@ public class AndroidAdapter extends RecyclerView.Adapter<AndroidAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        AndroidInfo.ResultsBean item = data.get(position);
+        GankItem item = data.get(position);
         holder.desc.setText(item.getDesc());
         String date = item.getPublishedAt();
         holder.date.setText(date.substring(0,date.indexOf("T")));

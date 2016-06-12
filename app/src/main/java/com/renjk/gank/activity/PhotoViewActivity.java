@@ -1,11 +1,9 @@
 package com.renjk.gank.activity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
@@ -15,7 +13,6 @@ import com.liuguangqiang.swipeback.SwipeBackActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 import com.renjk.gank.R;
 import com.renjk.gank.request.OkHttpManager;
-import com.renjk.gank.util.DownloadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;

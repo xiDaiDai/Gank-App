@@ -16,6 +16,7 @@
         ></android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
     <LinearLayout
+        android:visibility="gone"
         android:background="#fff"
         android:id="@+id/loadingView"
         android:gravity="center"

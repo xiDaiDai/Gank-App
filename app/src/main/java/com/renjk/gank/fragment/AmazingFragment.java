@@ -16,6 +16,7 @@ import com.renjk.gank.activity.PhotoViewActivity;
 import com.renjk.gank.activity.WebViewActivity;
 import com.renjk.gank.adapter.AmazingAdapter;
 import com.renjk.gank.bean.AndroidInfo;
+import com.renjk.gank.bean.GankItem;
 import com.renjk.gank.request.InfoRequest;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class AmazingFragment extends BaseFragment implements SwipeRefreshLayout.
         AmazingAdapter.OnRecyclerViewItemClickListener,View.OnClickListener {
     private RecyclerView lv_android;
     private AmazingAdapter mAdapter;
-    private List<AndroidInfo.ResultsBean> data;
+    private List<GankItem> data;
     private SwipeRefreshLayout refreshLayout;
     private int pageIndex = 1;
     private RecyclerView.LayoutManager mLayoutManager;
